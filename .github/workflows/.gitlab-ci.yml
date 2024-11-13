@@ -1,3 +1,30 @@
+stages:
+  - install
+  - test
+  - quality
+
+install:
+  stage: install
+  script:
+    - npm install
+  artifacts:
+    paths:
+      - node_modules/
+    expire_in: 1 day
+
+test:
+  stage: test
+  script:
+    - npx cypress run
+  artifacts:
+    paths:
+      - cypress/videos/
+      - cypress/screenshots/
+    expire_in: 1 week
+  dependencies:
+    - install
+
+
 qodana:
   image:
     name: jetbrains/qodana-js:2024.2
